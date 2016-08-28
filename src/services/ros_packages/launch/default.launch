@@ -1,0 +1,59 @@
+<!--
+#####################################################################
+# Copyright (c) 2016 Skysense Inc.
+# License: GNU General Public License v3
+# Author: Michele Dallachiesa
+#####################################################################
+-->
+
+<!--
+ndoe tag: http://wiki.ros.org/roslaunch/XML/node
+param tag: http://wiki.ros.org/roslaunch/XML/param
+ -->
+
+<launch>
+
+  <!--
+http://wiki.ros.org/rosapi
+Provides service calls for getting ros meta-information, like list of topics, services, params, etc.
+-->
+<node name="rosapi" pkg="rosapi" type="rosapi_node" output="screen"/>
+
+  <node name="service_pingpong" pkg="skysense" type="service_node.py" output="screen">
+    <param name="service_name" value="/device/ping"/>
+    <param name="service_class" value="ServicePing"/>
+  </node>
+
+  <node name="topic_time" pkg="skysense" type="topic_node.py" output="screen">
+    <param name="topic_root" value="/device/uptime"/>
+    <param name="update_frequency" value="1"/>
+    <param name="topic_class" value="TopicUptime"/>
+  </node>
+
+  <!-- <node name="radar" pkg="skysense" type="topic_node.py" output="screen">
+    <param name="topic_root" value="/device/radar"/>
+    <param name="update_frequency" value="1"/>
+    <param name="topic_class" value="TopicRadar"/>
+  </node>
+-->
+
+    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="screen">
+      <param name="port" value="9092"/>
+      <param name="address" value=""/>
+      <!-- <param name="authenticate" value="true"/> -->
+    </node>
+
+
+<!-- BEGIN Mission services and topics -->
+
+<node name="topic_mission_controller" pkg="skysense" type="topic_node.py" output="screen">
+  <param name="topic_root" value="/device/mission/controller"/>
+  <param name="update_frequency" value="1"/>
+  <param name="topic_class" value="TopicController"/>
+</node>
+
+
+<!-- END Mission services and topics -->
+
+
+</launch>

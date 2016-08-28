@@ -1,0 +1,284 @@
+<!--
+Copyright (c) 2016 Skysense Inc.
+License: GNU General Public License v3
+Author: Federico Fiorini, Michele Dallachiesa
+-->
+
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Skysense Planner</title>
+
+    <!-- Include JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Include the Web World Wind library -->
+    <script src="http://worldwindserver.net/webworldwind/worldwindlib.js" type="text/javascript"></script>
+
+    <!-- Include ROSlibjs library  -->
+    <script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+    <script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+    <!-- Include bootstrap -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<ul id="header" class="nav nav-tabs">
+  <div class="navbar-header">
+    <a class="navbar-brand" target="_blank" href="http://www.skysense.co/">
+      <img alt="Brand" src="img/logo.png">
+    </a>
+  </div>
+
+  <li class="nav-item">
+    <a id="flight-data-tab" class="nav-link active" href="#" onclick="flightDataTab()">
+      <span>Flight Data</span><br/>
+      <img class="tab-img" src="img/flight-data.png" />
+    </a>
+  </li>
+  <li class="nav-item" id="mission-plan-nav">
+    <a id="mission-plan-tab" class="nav-link" href="#" onclick="planMissionTab()">
+      <span>Plan Mission</span><br/>
+      <img class="tab-img" src="img/flight-plan.png" />
+    </a>
+  </li>
+  <li class="nav-item" id="flight-area-nav">
+    <a id="flight-area-tab" class="nav-link" href="#" onclick="geofenceTab()">
+      <span>Geofence</span><br/>
+      <img class="tab-img" src="img/flight-area.png" />
+    </a>
+  </li>
+  <li class="nav-item" id="import-export-nav">
+    <a id="import-export-tab" class="nav-link" href="#" onclick="importExportTab()">
+      <span>Import/Export</span><br/>
+      <img class="tab-img" src="img/import-export.png" />
+    </a>
+  </li>
+  <li class="nav-item">
+    <a id="camera-tab" class="nav-link" href="#" onclick="videoTab()">
+      <span>Camera</span><br/>
+      <img class="tab-img" src="img/camera.png" />
+    </a>
+  </li>
+  <li class="nav-item">
+    <a id="help" target="_blank" class="nav-link" href="/manual">
+      <span>Help</span><br/>
+      <img class="tab-img" src="img/help.png" />
+    </a>
+  </li>
+  <div class="navbar-header" style="float: right;">
+    <a class="navbar-brand" target="_blank" href="http://eurochallenge.como.polimi.it/">
+      <img alt="Brand" src="img/nasa.png">
+    </a>
+  </div>
+</ul>
+
+  <!-- Create a canvas for Web World Wind. -->
+  <div id="canvas-background">
+    <canvas id="canvasMap">
+        Your browser does not support HTML5 Canvas.
+    </canvas>
+  </div>
+  <div id="map-width"></div>
+  <div id="waiting-connection"><img src="img/drone.gif"/><br><br>Connecting... </div>
+
+  <div id="message-box"></div>
+  <div id="message-box-background"></div>
+  <div id="flight-data-panel" class="left-panel">
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Status</h5><h4><span id="status">DISCONNECTED</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Mode</h5><h4><span id="mode">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Altitude (GPS) m</h5><h4><span id="global-altitude">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Altitude (REL) m</h5><h4><span id="relative-altitude">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Battery (%)</h5><h4><span id="battery-percentage">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Latitude</h5><h4><span id="latitude">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Current (A)</h5><h4><span id="battery-current">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Longitude</h5><h4><span id="longitude">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Voltage (V)</h5><h4><span id="battery-voltage">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>GPS Status</h5><h4><span id="gps-status">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Pitch (deg)</h5><h4><span id="pitch">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Roll (deg)</h5><h4><span id="roll">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>Yaw (deg)</h5><h4><span id="yaw">NULL</span></h4>
+    </div>
+    <div class="col-md-6 col-sm-12 flight-data-div">
+      <h5>State</h5><h4><span id="state">NULL</span></h4>
+    </div>
+  </div>
+
+  <div id="mission-plan-panel" class="left-panel display-none">
+    <p id="mission-instruction" class="info-text">Setup and start a new mission:
+      Add waypoints clicking on the map, "Set Mission" and "Start" to launch.
+      <!--The mission is executed at a constant altitude set by option "Mission altitude".
+      You can request to return the starting location enabling the option "Back Home".-->
+    </p>
+
+    <div id="mission-table-wrapper" class="table-wrapper table-responsive">
+      <table id="waypoint-table" class="info-table table-condensed table-striped" style="width: 100%;">
+        <thead>
+          <tr><th>Waypoint</th><th>Latitude</th><th>Longitude</th><th>Altitude</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="button-wrapper" class="bottom-wrappers">
+      <div id="mission-param" class="table-wrapper table-responsive">
+        <table class="table-condensed" style="width: 70%; margin: 0 auto;">
+        <tr>
+          <td>Altitude: <input type="text" id="input-altitude" value="5"></td>
+          <td>Back home: <input type="checkbox" id="input-back-home" checked></td>
+        </tr>
+        </table>
+      </div>
+      <button id="clear" type="button" disabled class="btn btn-warning" onclick="clear_mission()">Clear</button>
+      <button id="set" type="button" disabled class="btn btn-primary" onclick="set_mission_btn()" >Set Mission</button>
+      <button id="start" type="button" disabled class="btn btn-success" onclick="start_mission_btn()">Start</button>
+    </div>
+
+    <div id="mission-info" class="bottom-wrappers">
+      <p id="state-p"></p>
+      <span id="state-span"><span id="mission-state" style="font-size: 20px;">MISSION RUNNING</span></span>
+      <img id="runnig-img" class="margin-lbr-10" src="img/drone-white.gif"/>
+      <button id="stop" type="button" class="btn btn-danger margin-br-10" onclick="stop_mission_btn()"
+        data-toggle="modal" data-target="#stopModal">Stop</button>
+
+      <button id="new" type="button" class="btn btn-primary margin-10" onclick="new_mission_btn()">New mission</button>
+      <button id="restart" type="button" class="btn btn-success margin-10" onclick="restart_mission_btn()">Restart</button>
+    </div>
+  </div>
+
+  <div id="geofence-panel" class="left-panel display-none">
+    <p id="geofence-instruction" class="info-text">Click on the map to add the <a target="_blank" href="https://en.wikipedia.org/wiki/Geo-fence">geofence</a> waypints. Connect the first and last waypoints to complete the procedure.</p>
+    <div id="geofence-table-wrapper" class="table-wrapper table-responsive" style="height: calc(100% - 90px);">
+      <table id="geofence-table" class="info-table table-condensed table-striped" style="width: 100%;">
+        <thead>
+          <tr><th>Waypoint</th><th>Latitude</th><th>Longitude</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div id="geofence-buttons" class="bottom-wrappers">
+      <button id="clear-area" type="button" disabled class="btn btn-warning" onclick="clear_geofence()">Clear</button>
+    </div>
+  </div>
+
+  <div id="import-export-panel" class="left-panel display-none">
+    <p class="info-text">Export <a target="_blank" href="https://en.wikipedia.org/wiki/Geo-fence">geofence</a> and mission waypoints in relative coordinates.
+      Set the mission before attempting an export.
+      You cannot import a new mission while a mission is running.</p>
+    <div id="import-export-buttons" class="top-wrappers">
+      <button id="import-mission" type="button" class="btn btn-primary" data-toggle="modal" data-target="#importMissionModal">Import Mission</button>
+      <button id="export-mission" type="button" disabled class="btn btn-primary" onclick="export_mission_btn()" >Export Mission</button>
+    </div>
+  </div>
+
+  <div id="camera-panel" class="left-panel display-none">
+    <p class="info-text">Camera streaming coming soon.</p>
+  </div>
+
+  <div id="show-left-panel"><img src="img/right.png"/></div>
+  <div id="hide-left-panel"><img src="img/left.png"/></div>
+
+  <div id="stopModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-center">Stop mission</h4>
+        </div>
+        <div class="modal-body text-center">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="back_home_and_stop_btn()">Go back home</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="land_and_stop_btn()">Land</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="countinue_mission_btn()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="importErrorModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          Unable to parse imported file<br><br>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="missionRunningModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body text-center">
+          Another operator is already running a mission.<br>
+          Please, wait for Mode STABILIZE to start a new mission.<br>
+          <br><br>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="importMissionModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-center">Import new mission</h4>
+        </div>
+        <div id="import-mission-confirmation" class="modal-body text-center">
+          You will lose the current mission. Do you want to proceed?<br><br>
+          <button type="button" class="btn btn-primary" onclick="import_mission_confirm()">Yes</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+        <div id="import-mission-confirmed" class="modal-body text-center display-none">
+          <input type="file" name="file" id="mission-file" /><br>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="import_mission_btn()">Import</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="import_mission_reset()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="map-buttons-wrapper"><button type="button" class="btn btn-primary" onclick="center_on_drone_btn()">Reset View</button></div>
+
+  <!-- Include local css and javascript files -->
+  <script src="js/address.js" type="text/javascript"></script>
+  <script src="js/utils.js" type="text/javascript"></script>
+  <script src="js/rosbridge.js" type="text/javascript"></script>
+  <script src="js/mission.js" type="text/javascript"></script>
+  <script src="js/map.js" type="text/javascript"></script>
+
+</body>
+</html>

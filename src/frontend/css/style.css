@@ -1,0 +1,494 @@
+/*
+Copyright (c) 2016 Skysense Inc.
+License: GNU General Public License v3
+Author: Federico Fiorini, Michele Dallachiesa
+*/
+
+body {
+    background-color: #ECECEC;
+    min-width: 500px;
+    overflow: hidden;
+}
+
+.nav {
+  background-color: #FFFFFF;
+  height: 73px;
+  border-bottom: 3px solid black;
+  z-index: 100;
+}
+
+.nav-item {
+  height: 100%;
+}
+
+.nav-link {
+  height: 100%;
+}
+
+.nav-tabs > li > a {
+  border-radius: 0;
+  border: 0;
+  margin-right: 0;
+  padding-top: 20px;
+}
+
+.nav > li > a {
+  padding: 5px 15px 20px 15px;
+  text-align: center;
+}
+
+.navbar-header {
+  float: left;
+  overflow: auto;
+  height: 100%;
+}
+
+.navbar-brand {
+  height: 100%;
+  padding: 10px 10px;
+}
+
+.navbar-brand > img {
+  height: 100%;
+}
+
+ul.nav .nav-item a:hover, ul.nav .nav-item a:focus, ul.nav .nav-item a:active {
+  background-color: rgba(3, 149, 217, 0.1);
+}
+
+#help:hover, #help:focus, #help:active {
+  background-color: #FFFFFF;
+}
+
+.active {
+  background-color: rgba(3, 149, 217, 0.2);
+}
+
+#canvasMap {
+  width: 100%;
+  height: 100%;
+  z-index: -100;
+}
+
+#canvas-background {
+  background-color: black;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: -200;
+  width: 0;
+  height: 0;
+}
+
+#map-width {
+  visibility: hidden;
+  width: 100%;
+}
+
+#message-box {
+  position: absolute;
+  bottom: 0;
+  height: 140px;
+  width: 30%;
+  color: red;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  text-align: left;
+  border-top: 2px inset #D4D4D4;
+  border-right: 2px inset #000000;
+  overflow: auto;
+  z-index: 10;
+  visibility: hidden;
+}
+
+#message-box-background {
+  position: absolute;
+  bottom: 0;
+  height: 140px;
+  width: 30%;
+  color: red;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 15px;
+  text-align: left;
+  border-top: 2px inset #D4D4D4;
+  border-right: 2px inset #000000;
+  overflow: auto;
+  z-index: 9;
+  visibility: hidden;
+}
+
+.left-panel {
+  position: absolute;
+	text-align: center;
+  height: calc(100% - 210px);
+	width: 30%;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #FFFFFF;
+  border-right: 2px inset #000000;
+  overflow: auto;
+}
+
+#show-left-panel{
+  position: absolute;
+  display: none;
+  bottom: 50%;
+}
+
+#hide-left-panel{
+  position: absolute;
+  display: none;
+  bottom: 50%;
+}
+
+#flight-data-panel {
+  visibility: hidden;
+}
+
+.flight-data-div {
+  height: 60px;
+  margin: 5px 0 5px 0;
+}
+
+.flight-data-div>h5 {
+  margin-bottom: 5px;
+}
+
+.flight-data-div>h4 {
+  margin-top: 5px;
+}
+
+.display-none {
+  display: none;
+}
+
+.bottom-wrappers {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  width: 100%;
+  margin: 30px 0 30px 0;
+}
+
+.top-wrappers {
+  text-align: center;
+  width: 100%;
+  margin: 30px 0 30px 0;
+}
+
+#button-wrapper {
+  visibility: visible;
+}
+
+#geofence-panel {
+  display: none;
+}
+
+#mission-info {
+  visibility: hidden;
+}
+
+#mission-param {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#mission-param input {
+  margin-left: 5px;
+}
+
+#Xmission-instruction {
+  padding-left: 20%;
+  padding-right: 20%;
+  text-align: left;
+}
+
+#runnig-img {
+  height: 35px;
+  width: 35px;
+}
+
+.margin-lbr-10 {
+  margin: 0 10px 10px 10px;
+}
+
+.margin-br-10 {
+  margin: 0 10px 10px 0;
+}
+
+.margin-10 {
+  margin: 10px;
+}
+
+#new {
+  display: none;
+}
+
+#restart {
+  margin-left: 0;
+}
+
+.table-wrapper {
+  overflow: auto;
+  float: left;
+  width: 100%;
+  height: 100%;
+}
+
+.info-table {
+  margin-top: 3px;
+}
+
+.info-table>thead>tr>th {
+  text-align: center;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.tab-img {
+  max-width:100%;
+  max-height:100%;
+}
+
+#input-altitude {
+  width: 40px;
+  height: 20px;
+  text-align: center;
+  border-radius: 2px;
+  color: #000000;
+}
+
+#status {
+  color: red;
+}
+
+#waiting-connection {
+  position: absolute;
+  left: calc(50% - 50px);
+  bottom: 40%;
+  text-align: center;
+  font-size: 10px;
+}
+
+#map-buttons-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 20px;
+  visibility: hidden;
+}
+
+#map-buttons-wrapper>button {
+  background-color: rgba(51, 122, 183, 0.5);
+}
+
+#map-buttons-wrapper>button:hover {
+  background-color: rgba(51, 122, 183, 1);
+}
+
+.top {
+  position: relative;
+  bottom: 0.55ex;
+}
+
+.info {
+  width: 20px;
+  height: 20px;
+}
+
+.info-text {
+  padding: 20px 10px 20px 10px;
+  text-align: center;
+  font-style: italic;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 0;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.padding-left-30 {
+  padding-left: 30%;
+}
+
+/* Smartphones (portrait) ----------- */
+@media only screen
+and (max-device-width : 640px)
+and (orientation : portrait) {
+
+   #message-box {
+     left: -100%;
+     font-size: 20px;
+   }
+
+   #message-box-background {
+     left: -100%;
+     font-size: 20px;
+   }
+
+   .left-panel {
+     left: -100%;
+   }
+
+   #show-left-panel {
+     display: inline;
+   }
+
+   .flight-data-div > h5 {
+     font-size: 22px;
+   }
+
+   .flight-data-div > h4 {
+     font-size: 30px;
+   }
+
+   .flight-data-div {
+     margin: 20px 0 20px 0;
+   }
+
+   .btn {
+     font-size: 25px;
+     margin: 10px 5px 20px 5px;
+   }
+
+   #clear {
+     margin: 10px 10% 10px 10px;
+   }
+
+   #header {
+     height: 100px;
+   }
+
+   #mission-param {
+     font-size: 25px;
+     padding-left: 5%;
+   }
+}
+
+/* Smartphones (landscape) ----------- */
+@media only screen
+and (max-device-width : 640px)
+and (orientation : landscape) {
+
+   #message-box {
+     left: 0;
+     font-size: 20px;
+   }
+
+   #message-box-background {
+     left: 0;
+     font-size: 20px;
+   }
+
+   .left-panel {
+     left: 0;
+   }
+
+   #show-left-panel {
+     display: none;
+   }
+
+   #hide-left-panel {
+     display: none;
+   }
+
+   .flight-data-div > h5 {
+     font-size: 22px;
+   }
+
+   .flight-data-div > h4 {
+     font-size: 30px;
+   }
+
+   .flight-data-div {
+     margin: 20px 0 20px 0;
+   }
+
+   .btn {
+     font-size: 25px;
+     margin: 10px 5px 20px 5px;
+   }
+
+   #clear {
+     margin: 10px 10% 10px 10px;
+   }
+
+   #header {
+     height: 73px;
+   }
+
+   #mission-param {
+     font-size: 25px;
+     padding-left: 5%;
+   }
+}
+
+/* iPads (portrait) ----------- */
+@media only screen
+and (min-device-width : 640px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+
+  #message-box {
+    left: -30%;
+  }
+
+  #message-box-background {
+    left: -30%;
+  }
+
+  .left-panel {
+    left: -30%;
+  }
+
+  #show-left-panel {
+    display: inline;
+  }
+
+  .flight-data-div > h5 {
+    font-size: 18px;
+  }
+
+  .flight-data-div > h4 {
+    font-size: 24px;
+  }
+}
+
+/* iPads (landscape) ----------- */
+@media only screen
+and (min-device-width : 640px)
+and (max-device-width : 1024px)
+and (orientation : landscape) {
+
+  #message-box {
+    left: 0;
+  }
+
+  #message-box-background {
+    left: 0;
+  }
+
+  .left-panel {
+    left: 0;
+  }
+
+  #show-left-panel {
+    display: none;
+  }
+
+  #hide-left-panel {
+    display: none;
+  }
+
+  .flight-data-div > h5 {
+    font-size: 14px;
+  }
+
+  .flight-data-div > h4 {
+    font-size: 18px;
+  }
+}
