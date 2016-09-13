@@ -4,7 +4,7 @@
   <!-- Enable simulation clock -->
   <param name="use_sim_time" type="bool" value="true" />
   <include file="$(find mavros)/launch/apm_sitl.launch"></include>
-
+   
   <arg name="enable_logging" default="false"/>
   <arg name="enable_ground_truth" default="true"/>
   <arg name="log_file" default="erlecopter"/>
@@ -48,15 +48,15 @@
          -model $(arg name)"
    respawn="false" output="screen">
   </node>
-	
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="paused" value="true"/>   <!-- value unrelevant due to Arducopter plugin steps --> 
+    <arg name="paused" value="true"/>   <!-- value unrelevant due to Arducopter plugin steps -->
     <arg name="headless" value="$(arg headless)"/>
     <arg name="gui" value="$(arg gui)"/>
     <arg name="world_name" value="$(arg world_name)"/>
   </include>
 <!--  <node name="tag1" pkg="gazebo_ros" type="spawn_model" args="-file $(find rotors_description)/urdf/ARtag.urdf -urdf -x 0.0 -y 0.0 -z 0.01 -model ARtag1" respawn="false" />-->
 
-    
+
 <include file="$(find skysense)/launch/default.launch"></include>
 </launch>
