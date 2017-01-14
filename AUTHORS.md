@@ -7,6 +7,6 @@ Original Authors
 Contributors
 ------------
 
- * You?
+ * James Pattison (james@auturgy.com.au) // I'll be tinkering, but the vast majority of this work belongs to Skysense
 
 
