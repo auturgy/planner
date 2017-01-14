@@ -27,7 +27,7 @@ Skysense Planner connected to a simulated drone.
 
    .. code-block:: bash
 
-      git clone https://github.com/skyscode/planner.git
+      git clone https://github.com/auturgy/planner.git
       cd planner
 
 #. Create a pair of files *vm1.host* and *vm1_key* in the *planner/credentials* directory, where *vm1.host*
