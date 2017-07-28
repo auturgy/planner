@@ -3,7 +3,7 @@ Skysense Planner
 
 Skysense Planner is an Open-source Web Mission Planner for MAVLink Drones, including ADS-B aircraft tracking and Geofence management.
 
-For full documentation, see [Skysense Planner Homepage](http://www.skysense.co/planner).
+For full documentation, see [Skysense Planner Homepage](http://www.skysense.co/planner).  //no longer available.
 
 ### Status
 This copy of Skysense Planner was forked at a time when the master was available on Github.  Skysense have since removed it from their public repo.  It functions as a demonstrator (simulated vehicle).  I am yet to enable live use.
