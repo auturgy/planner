@@ -9,8 +9,9 @@ source "${SCRIPT_DIR}/defines.sh"
 #####################################################################
 
 # install required packages
-CMD_CHECK "sudo apt-get -fy install g++ python-pip python-matplotlib python-serial python-wxgtk2.8 python-scipy python-opencv python-numpy python-pyparsing ccache realpath libopencv-dev"
-CMD_CHECK "sudo pip2 install pymavlink MAVProxy catkin_pkg --upgrade"
+CMD_CHECK "sudo apt-get -fy install g++ python-pip python-dev python-pygame python-lxml python-matplotlib python-serial python-wxgtk3.0 python-scipy python-opencv python-numpy python-pyparsing ccache realpath libopencv-dev"
+
+CMD_CHECK "sudo pip2 install pymavlink future MAVProxy catkin_pkg --upgrade"
 
 
 # compile a specific branch of ardupilot
