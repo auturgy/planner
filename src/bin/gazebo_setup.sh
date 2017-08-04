@@ -2,7 +2,7 @@
 #####################################################################
 # Copyright (c) 2016 Skysense Inc.
 # License: GNU General Public License v3
-# Author: Michele Dallachiesa
+# Author: Michele Dallachiesa (with a tiny update by auturgy)
 #####################################################################
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source "${SCRIPT_DIR}/defines.sh"
