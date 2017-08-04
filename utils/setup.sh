@@ -20,7 +20,7 @@ CMD_CHECK "${UTILS_DIR}/deploy.sh $SRV_TAGNAME"
 # setup and install ros
 CMD_CHECK "${UTILS_DIR}/ssh.sh $SRV_TAGNAME /home/ubuntu/dist/bin/ros_setup.sh"
 
-# setup and install gazebo and arducopter
+# setup and install gazebo, mavproxy and arducopter
 CMD_CHECK "${UTILS_DIR}/ssh.sh $SRV_TAGNAME /home/ubuntu/dist/bin/gazebo_setup.sh"
 
 #####################################################################
