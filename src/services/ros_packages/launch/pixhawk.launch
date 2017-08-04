@@ -1,0 +1,85 @@
+<!--
+#####################################################################
+# Copyright (c) 2016 Skysense Inc.
+# License: GNU General Public License v3
+# Author: Michele Dallachiesa
+#####################################################################
+-->
+
+<!--
+ndoe tag: http://wiki.ros.org/roslaunch/XML/node
+param tag: http://wiki.ros.org/roslaunch/XML/param
+ -->
+
+<launch>
+
+  <!--
+http://wiki.ros.org/rosapi
+Provides service calls for getting ros meta-information, like list of topics, services, params, etc.
+-->
+<node name="rosapi" pkg="rosapi" type="rosapi_node" output="screen"/>
+
+  <node name="service_pingpong" pkg="skysense" type="service_node.py" output="screen">
+    <param name="service_name" value="/device/ping"/>
+    <param name="service_class" value="ServicePing"/>
+  </node>
+
+  <node name="topic_time" pkg="skysense" type="topic_node.py" output="screen">
+    <param name="topic_root" value="/device/uptime"/>
+    <param name="update_frequency" value="1"/>
+    <param name="topic_class" value="TopicUptime"/>
+  </node>
+
+  <!-- <node name="radar" pkg="skysense" type="topic_node.py" output="screen">
+    <param name="topic_root" value="/device/radar"/>
+    <param name="update_frequency" value="1"/>
+    <param name="topic_class" value="TopicRadar"/>
+  </node>
+-->
+
+    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="screen">
+      <param name="port" value="9092"/>
+      <param name="address" value=""/>
+      <!-- <param name="authenticate" value="true"/> -->
+    </node>
+
+
+<!-- BEGIN Mission services and topics -->
+
+<node name="topic_mission_controller" pkg="skysense" type="topic_node.py" output="screen">
+  <param name="topic_root" value="/device/mission/controller"/>
+  <param name="update_frequency" value="1"/>
+  <param name="topic_class" value="TopicController"/>
+</node>
+
+
+<!-- END Mission services and topics -->
+
+
+<!-- BEGIN MAVROS -->
+
+<arg name="fcu_url" default="/dev/ttyUSB0:57600" />
+<arg name="gcs_url" default="udp://@192.168.1.100:14550" />
+<arg name="tgt_system" default="1" />
+<arg name="tgt_component" default="1" />
+<arg name="log_output" default="screen" />
+<arg name="set_stream_rate" default="0 10 1" />
+
+<include file="$(find mavros)/launch/node.launch">
+        <arg name="pluginlists_yaml" value="$(find mavros)/launch/px4_pluginlists.yaml" />
+        <arg name="config_yaml" value="$(find mavros)/launch/px4_config.yaml" />
+
+        <arg name="fcu_url" value="$(arg fcu_url)" />
+        <arg name="gcs_url" value="$(arg gcs_url)" />
+        <arg name="tgt_system" value="$(arg tgt_system)" />
+        <arg name="tgt_component" value="$(arg tgt_component)" />
+        <arg name="log_output" value="$(arg log_output)" />
+
+        <param name="conn_heartbeat" value="5.0" />
+                <param name="conn_timeout" value="5.0" />
+
+</include>
+
+<!-- END MAVROS -->
+
+</launch>

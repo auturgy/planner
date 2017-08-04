@@ -39,7 +39,7 @@ python-daemon uwsgi-plugin-python uwsgi uwsgi-plugin-python python-flask lvm2 cr
 htop bmon python-virtualenv python3-pip curl hping3 apache2-utils realpath udev stunnel socat \
 tcpdump usbmount sharutils ntp dnsutils gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good \
 gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly gstreamer1.0-libav v4l-utils python-wstool librtlsdr-dev rtl-sdr \
-libpng-dev libjpeg8-dev libfreetype6-dev expect"
+libpng-dev libjpeg8-dev libfreetype6-dev expect ros-indigo-rqt-bag ros-indigo-rqt-image-view ros-indigo-rqt"
 
 # rosclient websocket
 CMD_SSH_CHECK "sudo pip install trollius"

@@ -1,0 +1,11 @@
+node_modules
+bower_components
+__pycache__
+.DS_Store
+*.pyc
+.vagrant
+dist
+TODO
+misc
+_build
+credentials

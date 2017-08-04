@@ -11,6 +11,8 @@ This copy of Skysense Planner was forked at a time when the master was available
 ### License
 Skysense Planner is released with a GNU General Public License v3. For full terms and conditions, see the [LICENSE](LICENSE) file.
 
+A commercial license is also avaiable on request.
+
 ### Authors
 See the [AUTHORS](AUTHORS.md) file for a full list of contributors.
 
