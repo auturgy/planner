@@ -17,7 +17,7 @@ CMD_CHECK "mkdir dist/www"
 CMD_CHECK "echo UP AND RUNNING > dist/www/index.html"
 CMD_CHECK "cp -rv ${ROOT_DIR}/src/frontend/* dist/www"
 CMD_CHECK "cp -rv ${ROOT_DIR}/src/data dist/"
-CMD_CHECK "cp -rv ${ROOT_DIR}/docs/manual dist/www/"
+CMD_CHECK "cp -rv ${ROOT_DIR}/src/docs/manual dist/www/"
 echo "dist ready."
 
 ###############################################################################
